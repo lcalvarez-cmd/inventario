@@ -1,7 +1,7 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : localhost_3306
+ Source Server         : localhost
  Source Server Type    : MySQL
  Source Server Version : 100424
  Source Host           : localhost:3306
@@ -11,7 +11,7 @@
  Target Server Version : 100424
  File Encoding         : 65001
 
- Date: 30/08/2022 01:14:05
+ Date: 30/08/2022 12:58:44
 */
 
 SET NAMES utf8mb4;
@@ -29,7 +29,7 @@ CREATE TABLE `datoscontacto`  (
   PRIMARY KEY (`id_datoscontacto`) USING BTREE,
   INDEX `fk_datosproveedor`(`id_proveedor`) USING BTREE,
   CONSTRAINT `fk_datosproveedor` FOREIGN KEY (`id_proveedor`) REFERENCES `proveedor` (`id_proveedor`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 15 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 15 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of datoscontacto
@@ -46,6 +46,25 @@ INSERT INTO `datoscontacto` VALUES (13, 1, 'dir 1', 8);
 INSERT INTO `datoscontacto` VALUES (14, 2, 'dir 2', 8);
 
 -- ----------------------------
+-- Table structure for producto
+-- ----------------------------
+DROP TABLE IF EXISTS `producto`;
+CREATE TABLE `producto`  (
+  `id_producto` bigint NOT NULL AUTO_INCREMENT,
+  `codigo` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `nombre` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `cantidad` decimal(20, 3) NULL DEFAULT NULL,
+  `precio` decimal(20, 3) NULL DEFAULT NULL,
+  `categoria` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`id_producto`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of producto
+-- ----------------------------
+INSERT INTO `producto` VALUES (10, 'cod1', 'papa', 10.500, 10009.900, 'verduras');
+
+-- ----------------------------
 -- Table structure for proveedor
 -- ----------------------------
 DROP TABLE IF EXISTS `proveedor`;
@@ -55,7 +74,7 @@ CREATE TABLE `proveedor`  (
   `nit` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id_proveedor`) USING BTREE,
   INDEX `id_proveedor`(`id_proveedor`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of proveedor
@@ -81,7 +100,7 @@ CREATE TABLE `usuario`  (
   `estado` int NULL DEFAULT NULL,
   `rol` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id_usuario`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of usuario

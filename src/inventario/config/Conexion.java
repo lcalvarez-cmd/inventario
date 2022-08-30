@@ -59,7 +59,7 @@ public class Conexion {
             pstm.execute();
             return 1;
         } catch (Exception e) {
-            System.out.println("Error en la entencia");
+            System.err.println("Error en la entencia "+e);
             return 0;
         }
     }
