@@ -11,10 +11,6 @@ import java.awt.Toolkit;
 import java.sql.ResultSet;
 import javax.swing.JOptionPane;
 
-/**
- *
- * @author Snake
- */
 public class Inventario extends javax.swing.JFrame {
 
     /**
