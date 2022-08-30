@@ -308,8 +308,12 @@ public class Inventario extends javax.swing.JFrame {
             producto.setId_producto(Long.parseLong(txtIdProducto.getText()));
             producto.setCodigo(txtCodigoProducto.getText());
             producto.setNombre(txtNombreProducto.getText());
-            producto.setCantidad(Double.parseDouble(txtCantidad.getText()));
-            producto.setPrecio(Double.parseDouble(txtPrecioUnidad.getText()));
+            try {
+                producto.setCantidad(Double.parseDouble(txtCantidad.getText()));
+                producto.setPrecio(Double.parseDouble(txtPrecioUnidad.getText()));
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Error en algun valor númerico");
+            }
             producto.setCategoria(txtCategoria.getText());
         }
         return producto;
