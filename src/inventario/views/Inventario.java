@@ -8,6 +8,7 @@ import inventario.config.Conexion;
 import inventario.modelo.Producto;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.sql.ResultSet;
 import javax.swing.JOptionPane;
 
 /**
@@ -273,6 +274,12 @@ public class Inventario extends javax.swing.JFrame {
         try{
             Conexion objConexion = new Conexion();
             Producto objProducto = recuperarDatosGUI();
+            ResultSet respuesta = objConexion.consultarRegistro("Select * from producto where codigo = '" + objProducto.getCodigo() + "'");
+            if(!respuesta.isBeforeFirst()){//si retorna false el codigo no esta el la bd
+                String sentencia = String.format("INSERT INTO producto (codigo,nombre,cantidad,precio,categoria) VALUES('%s','%s','%d','%d','%s')", objProducto.getCodigo(), objProducto.getNombre(), objProducto.getCantidad(), objProducto.getPrecio(), objProducto.getCategoria());
+                objConexion.ejecutarSentenciSQL(sentencia);
+            }
+            agregar la tabla producto en la bd
             objConexion.conectar();
             objConexion.desconectar();
         }catch(Exception ex){

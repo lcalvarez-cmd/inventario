@@ -301,7 +301,7 @@ public class FormProveedor extends javax.swing.JFrame {
                 objConexion.ejecutarSentenciSQL(sentenciauno);//se crea el proveedor 
                 respuesta = objConexion.consultarRegistro("Select * from proveedor where nit = '" + objProveedor.getNit() + "'");
                 long id_proveedor = 0;
-                while (respuesta.next()) {
+                while (respuesta.next()) {//obtengo el id para agregar los datos el id
                     id_proveedor = Long.parseLong(respuesta.getString("id_proveedor"));
                 }
                 for (int i = 0; i < objProveedor.getDatos().size(); i++) {
