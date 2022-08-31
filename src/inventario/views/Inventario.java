@@ -9,10 +9,15 @@ import inventario.modelo.Producto;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 public class Inventario extends javax.swing.JFrame {
-
+    DefaultTableModel model;
+    ArrayList<Producto> listaProductos;
+    int posicion = -1;
     /**
      * Creates new form Inventario
      */
@@ -21,8 +26,15 @@ public class Inventario extends javax.swing.JFrame {
         Dimension pantalla = Toolkit.getDefaultToolkit().getScreenSize();
         int height = pantalla.height;
         int width = pantalla.width;
+        String[] titulos = {"ID_PRODUCTO","CODIGO","NOMBRE","CANTIDAD","PRECIO","CATEGORIA"};
+        
+        model = new DefaultTableModel(null,titulos);
+        tblProductos.setModel(model);
+        cargarDatos();
 //        setSize(width/2,height/2);//para darle tamaño a la vista
         setLocationRelativeTo(null);//para posicionar en este caso centrar
+        
+        tblProductos.removeColumn(tblProductos.getColumnModel().getColumn(0));
     }
 
     /**
@@ -54,14 +66,17 @@ public class Inventario extends javax.swing.JFrame {
         txtPrecioUnidad = new javax.swing.JTextField();
         txtCategoria = new javax.swing.JTextField();
         btnAgregar = new javax.swing.JButton();
+        btnCandelarAgregar = new javax.swing.JButton();
         pnlEdidarProducto = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
-        txtPrecioNuevo = new javax.swing.JTextField();
-        txtCantidadModificable = new javax.swing.JTextField();
         btnAgregarCantidad = new javax.swing.JButton();
         btnRestarCantidad = new javax.swing.JButton();
         btnAsignarCantidad = new javax.swing.JButton();
+        txtCantidadAModificar = new javax.swing.JTextField();
+        txtPrecioActual = new javax.swing.JTextField();
+        btnCancelarModificar = new javax.swing.JButton();
+        lblCantidadActual = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -94,6 +109,11 @@ public class Inventario extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tblProductos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblProductosMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblProductos);
 
         jLabel2.setText("Agregar producto");
@@ -129,6 +149,13 @@ public class Inventario extends javax.swing.JFrame {
             }
         });
 
+        btnCandelarAgregar.setText("Cancelar");
+        btnCandelarAgregar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCandelarAgregarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout pnlAgregarProductoLayout = new javax.swing.GroupLayout(pnlAgregarProducto);
         pnlAgregarProducto.setLayout(pnlAgregarProductoLayout);
         pnlAgregarProductoLayout.setHorizontalGroup(
@@ -137,35 +164,40 @@ public class Inventario extends javax.swing.JFrame {
                 .addGap(15, 15, 15)
                 .addGroup(pnlAgregarProductoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnlAgregarProductoLayout.createSequentialGroup()
-                        .addGroup(pnlAgregarProductoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(pnlAgregarProductoLayout.createSequentialGroup()
-                                .addComponent(jLabel7)
-                                .addGap(66, 66, 66)
-                                .addComponent(txtCategoria))
-                            .addGroup(pnlAgregarProductoLayout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addGap(26, 26, 26)
-                                .addComponent(txtIdProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(pnlAgregarProductoLayout.createSequentialGroup()
-                                .addGroup(pnlAgregarProductoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel4)
-                                    .addComponent(jLabel3))
-                                .addGap(73, 73, 73)
-                                .addGroup(pnlAgregarProductoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(txtCodigoProducto, javax.swing.GroupLayout.DEFAULT_SIZE, 106, Short.MAX_VALUE)
-                                    .addComponent(txtNombreProducto)))
-                            .addGroup(pnlAgregarProductoLayout.createSequentialGroup()
-                                .addComponent(jLabel6)
-                                .addGap(43, 43, 43)
-                                .addComponent(txtPrecioUnidad)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnAgregar)
-                        .addGap(31, 31, 31))
-                    .addGroup(pnlAgregarProductoLayout.createSequentialGroup()
                         .addComponent(jLabel5)
                         .addGap(69, 69, 69)
                         .addComponent(txtCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlAgregarProductoLayout.createSequentialGroup()
+                        .addGroup(pnlAgregarProductoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(pnlAgregarProductoLayout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(btnCandelarAgregar))
+                            .addGroup(pnlAgregarProductoLayout.createSequentialGroup()
+                                .addGroup(pnlAgregarProductoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addGroup(pnlAgregarProductoLayout.createSequentialGroup()
+                                        .addComponent(jLabel7)
+                                        .addGap(66, 66, 66)
+                                        .addComponent(txtCategoria))
+                                    .addGroup(pnlAgregarProductoLayout.createSequentialGroup()
+                                        .addComponent(jLabel2)
+                                        .addGap(26, 26, 26)
+                                        .addComponent(txtIdProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(pnlAgregarProductoLayout.createSequentialGroup()
+                                        .addGroup(pnlAgregarProductoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel4)
+                                            .addComponent(jLabel3))
+                                        .addGap(73, 73, 73)
+                                        .addGroup(pnlAgregarProductoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(txtCodigoProducto, javax.swing.GroupLayout.DEFAULT_SIZE, 106, Short.MAX_VALUE)
+                                            .addComponent(txtNombreProducto)))
+                                    .addGroup(pnlAgregarProductoLayout.createSequentialGroup()
+                                        .addComponent(jLabel6)
+                                        .addGap(43, 43, 43)
+                                        .addComponent(txtPrecioUnidad)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnAgregar)))
+                        .addGap(31, 31, 31))))
         );
         pnlAgregarProductoLayout.setVerticalGroup(
             pnlAgregarProductoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -199,69 +231,94 @@ public class Inventario extends javax.swing.JFrame {
                 .addGroup(pnlAgregarProductoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel7)
                     .addComponent(txtCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(36, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
+                .addComponent(btnCandelarAgregar)
+                .addContainerGap())
         );
 
         jLabel8.setText("Cantidad:");
 
         jLabel9.setText("Precio Unidad:");
 
-        txtPrecioNuevo.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtPrecioNuevoKeyTyped(evt);
-            }
-        });
-
-        txtCantidadModificable.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtCantidadModificableKeyTyped(evt);
-            }
-        });
-
         btnAgregarCantidad.setText("+");
+        btnAgregarCantidad.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAgregarCantidadActionPerformed(evt);
+            }
+        });
 
         btnRestarCantidad.setText("-");
+        btnRestarCantidad.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRestarCantidadActionPerformed(evt);
+            }
+        });
 
         btnAsignarCantidad.setText("✓");
+        btnAsignarCantidad.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAsignarCantidadActionPerformed(evt);
+            }
+        });
+
+        txtCantidadAModificar.setText("0");
+
+        btnCancelarModificar.setText("Cancelar");
+        btnCancelarModificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarModificarActionPerformed(evt);
+            }
+        });
+
+        lblCantidadActual.setText("Cantidad actual:");
 
         javax.swing.GroupLayout pnlEdidarProductoLayout = new javax.swing.GroupLayout(pnlEdidarProducto);
         pnlEdidarProducto.setLayout(pnlEdidarProductoLayout);
         pnlEdidarProductoLayout.setHorizontalGroup(
             pnlEdidarProductoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlEdidarProductoLayout.createSequentialGroup()
-                .addGap(29, 29, 29)
-                .addGroup(pnlEdidarProductoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(pnlEdidarProductoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnlEdidarProductoLayout.createSequentialGroup()
-                        .addComponent(jLabel8)
-                        .addGap(33, 33, 33)
-                        .addComponent(txtCantidadModificable, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(29, 29, 29)
+                        .addGroup(pnlEdidarProductoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel9)
+                            .addComponent(lblCantidadActual)
+                            .addComponent(jLabel8))
+                        .addGap(21, 21, 21)
+                        .addGroup(pnlEdidarProductoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(pnlEdidarProductoLayout.createSequentialGroup()
+                                .addComponent(txtCantidadAModificar, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnAgregarCantidad)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnRestarCantidad))
+                            .addComponent(txtPrecioActual, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnAgregarCantidad)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnRestarCantidad))
+                        .addComponent(btnAsignarCantidad))
                     .addGroup(pnlEdidarProductoLayout.createSequentialGroup()
-                        .addComponent(jLabel9)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(txtPrecioNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnAsignarCantidad)
+                        .addGap(117, 117, 117)
+                        .addComponent(btnCancelarModificar)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         pnlEdidarProductoLayout.setVerticalGroup(
             pnlEdidarProductoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlEdidarProductoLayout.createSequentialGroup()
-                .addGap(47, 47, 47)
+                .addGap(13, 13, 13)
+                .addComponent(lblCantidadActual)
+                .addGap(18, 18, 18)
                 .addGroup(pnlEdidarProductoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel8)
-                    .addComponent(txtCantidadModificable, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnRestarCantidad)
-                    .addComponent(btnAgregarCantidad))
+                    .addComponent(btnAgregarCantidad)
+                    .addComponent(txtCantidadAModificar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel8))
                 .addGap(29, 29, 29)
                 .addGroup(pnlEdidarProductoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9)
-                    .addComponent(txtPrecioNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnAsignarCantidad))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnAsignarCantidad)
+                    .addComponent(txtPrecioActual, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnCancelarModificar)
+                .addGap(32, 32, 32))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -364,14 +421,119 @@ public class Inventario extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_txtPrecioUnidadKeyTyped
 
-    private void txtPrecioNuevoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPrecioNuevoKeyTyped
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtPrecioNuevoKeyTyped
+    //capturamos el click en la columna de la trabla
+    private void tblProductosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblProductosMouseClicked
+        if(evt.getClickCount() == 1){
+            try {
+                pnlAgregarProducto.setVisible(false);
+                pnlEdidarProducto.setVisible(true);
+                JTable receptor = (JTable)evt.getSource();
+                lblCantidadActual.setText("Cantidad actual: "+receptor.getModel().getValueAt(receptor.getSelectedRow(), 3).toString());
+                txtCantidadAModificar.setText("0");
+                txtPrecioActual.setText(receptor.getModel().getValueAt(receptor.getSelectedRow(), 4).toString());
+                //en la lista buscamos la posición
+                for (int i =0 ; i < listaProductos.size() ; i++) {
+                    //para actualizar el objeto
+                    if(listaProductos.get(i).getId_producto() == Double.parseDouble(receptor.getModel().getValueAt(receptor.getSelectedRow(),0).toString())){
+                        this.posicion =i;
+                    }
+                }
+            } catch (Exception e) {
+                System.err.println("Error en click columna de la tabla "+e);
+            }
+        }
+    }//GEN-LAST:event_tblProductosMouseClicked
 
-    private void txtCantidadModificableKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCantidadModificableKeyTyped
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtCantidadModificableKeyTyped
+    private void btnCancelarModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarModificarActionPerformed
+        pnlAgregarProducto.setVisible(true);
+        pnlEdidarProducto.setVisible(false);
+    }//GEN-LAST:event_btnCancelarModificarActionPerformed
 
+    private void btnCandelarAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCandelarAgregarActionPerformed
+        limpiar();
+    }//GEN-LAST:event_btnCandelarAgregarActionPerformed
+
+    //agregar cantidad al producto actual
+    private void btnAgregarCantidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarCantidadActionPerformed
+        double cantidad = this.listaProductos.get(this.posicion).getCantidad();
+        double cantidadAgregar = Double.parseDouble(txtCantidadAModificar.getText());
+        cantidad = cantidad +cantidadAgregar;
+        this.listaProductos.get(this.posicion).setCantidad(cantidad);
+        Producto p = this.listaProductos.get(this.posicion);
+        String sentencia = "UPDATE producto SET codigo = '"+p.getCodigo()+"',nombre = '"+p.getNombre()+"',cantidad = '"+p.getCantidad()+"',precio= '"+p.getPrecio()+"',categoria = '"+p.getCategoria()+"' where id_producto = '"+p.getId_producto()+"'";
+        Conexion c = new Conexion();
+        c.ejecutarSentenciSQL(sentencia);
+        cargarDatos();
+        c.desconectar();
+        lblCantidadActual.setText("Cantidad actual: "+cantidad);
+        txtCantidadAModificar.setText("0");
+    }//GEN-LAST:event_btnAgregarCantidadActionPerformed
+    //retirar cantidad
+    private void btnRestarCantidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRestarCantidadActionPerformed
+        double cantidad = this.listaProductos.get(this.posicion).getCantidad();
+        double cantidadAgregar = Double.parseDouble(txtCantidadAModificar.getText());
+        cantidad = cantidad - cantidadAgregar;
+        if(cantidad >= 0){
+            this.listaProductos.get(this.posicion).setCantidad(cantidad);
+            Producto p = this.listaProductos.get(this.posicion);
+            String sentencia = "UPDATE producto SET codigo = '"+p.getCodigo()+"',nombre = '"+p.getNombre()+"',cantidad = '"+p.getCantidad()+"',precio= '"+p.getPrecio()+"',categoria = '"+p.getCategoria()+"' where id_producto = '"+p.getId_producto()+"'";
+            Conexion c = new Conexion();
+            c.ejecutarSentenciSQL(sentencia);
+            cargarDatos();
+            c.desconectar();
+            lblCantidadActual.setText("Cantidad actual: "+cantidad);
+            txtCantidadAModificar.setText("0");
+        }else{
+            JOptionPane.showMessageDialog(null,"Error al retirar la cantidad");
+        }
+        
+    }//GEN-LAST:event_btnRestarCantidadActionPerformed
+
+    //cambia el valor al producto por unidad
+    private void btnAsignarCantidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAsignarCantidadActionPerformed
+        double precio = Double.parseDouble(txtPrecioActual.getText());
+        Producto p = this.listaProductos.get(this.posicion);
+        p.setPrecio(precio);
+        String sentencia = "UPDATE producto SET codigo = '"+p.getCodigo()+"',nombre = '"+p.getNombre()+"',cantidad = '"+p.getCantidad()+"',precio= '"+p.getPrecio()+"',categoria = '"+p.getCategoria()+"' where id_producto = '"+p.getId_producto()+"'";
+        Conexion c = new Conexion();
+        c.ejecutarSentenciSQL(sentencia);
+        cargarDatos();
+    }//GEN-LAST:event_btnAsignarCantidadActionPerformed
+
+    public void limpiar(){
+        txtCodigoProducto.setText("");
+        txtNombreProducto.setText("");
+        txtCantidad.setText("");
+        txtPrecioUnidad.setText("");
+        txtCategoria.setText("");
+    }
+    
+    public void cargarDatos(){
+        while(model.getRowCount() > 0){
+            model.removeRow(0);//limpia la tabla
+        }
+        Conexion objConexion = new Conexion();
+        this.listaProductos = new ArrayList<>();
+        try {
+            ResultSet respuesta = objConexion.consultarRegistro("Select * from producto");
+            while(respuesta.next()){
+                Producto producto = new Producto();
+                producto.setId_producto(Long.parseLong(respuesta.getString("id_producto")));
+                producto.setCodigo(respuesta.getString("codigo"));
+                producto.setNombre(respuesta.getString("nombre"));
+                producto.setCantidad(Double.parseDouble(respuesta.getString("cantidad")));
+                producto.setPrecio(Double.parseDouble(respuesta.getString("precio")));
+                producto.setCategoria(respuesta.getString("categoria"));
+                Object [] objProducto = {producto.getId_producto(),producto.getCodigo(),producto.getNombre(),producto.getCantidad(),producto.getPrecio(),producto.getCategoria()};
+                listaProductos.add(producto);
+                model.addRow(objProducto);
+            }
+        } catch (Exception e) {
+            System.err.println("inventario: error "+e);
+        }
+        
+    }
+    
     private Producto recuperarDatosGUI() {
         Producto producto = new Producto();
         if (txtCodigoProducto.getText().isEmpty() || txtNombreProducto.getText().isEmpty() || txtCantidad.getText().isEmpty() || txtPrecioUnidad.getText().isEmpty() || txtCategoria.getText().isEmpty()
@@ -432,6 +594,8 @@ public class Inventario extends javax.swing.JFrame {
     private javax.swing.JButton btnAgregar;
     private javax.swing.JButton btnAgregarCantidad;
     private javax.swing.JButton btnAsignarCantidad;
+    private javax.swing.JButton btnCancelarModificar;
+    private javax.swing.JButton btnCandelarAgregar;
     private javax.swing.JButton btnProductos;
     private javax.swing.JButton btnProveedores;
     private javax.swing.JButton btnRestarCantidad;
@@ -446,16 +610,17 @@ public class Inventario extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblCantidadActual;
     private javax.swing.JPanel pnlAgregarProducto;
     private javax.swing.JPanel pnlEdidarProducto;
     private javax.swing.JTable tblProductos;
     private javax.swing.JTextField txtCantidad;
-    private javax.swing.JTextField txtCantidadModificable;
+    private javax.swing.JTextField txtCantidadAModificar;
     private javax.swing.JTextField txtCategoria;
     private javax.swing.JTextField txtCodigoProducto;
     private javax.swing.JTextField txtIdProducto;
     private javax.swing.JTextField txtNombreProducto;
-    private javax.swing.JTextField txtPrecioNuevo;
+    private javax.swing.JTextField txtPrecioActual;
     private javax.swing.JTextField txtPrecioUnidad;
     // End of variables declaration//GEN-END:variables
 }

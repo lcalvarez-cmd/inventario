@@ -20,8 +20,8 @@ public class FormProveedor extends javax.swing.JFrame {
     DefaultTableModel model;
 
     ArrayList<Proveedor> listProveedores;
-    private JComboBox combo;
-    private JTextField tf;
+//    private JComboBox combo;
+//    private JTextField tf;
 
     /**
      * Creates new form FormProveedor
