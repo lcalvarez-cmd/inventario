@@ -1,7 +1,7 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : localhost
+ Source Server         : localhost_3306
  Source Server Type    : MySQL
  Source Server Version : 100424
  Source Host           : localhost:3306
@@ -11,7 +11,7 @@
  Target Server Version : 100424
  File Encoding         : 65001
 
- Date: 30/08/2022 12:58:44
+ Date: 01/09/2022 00:33:53
 */
 
 SET NAMES utf8mb4;
@@ -57,12 +57,13 @@ CREATE TABLE `producto`  (
   `precio` decimal(20, 3) NULL DEFAULT NULL,
   `categoria` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id_producto`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 12 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of producto
 -- ----------------------------
-INSERT INTO `producto` VALUES (10, 'cod1', 'papa', 10.500, 10009.900, 'verduras');
+INSERT INTO `producto` VALUES (10, 'cod1', 'PAPA', 50.500, 10009.900, 'verduras');
+INSERT INTO `producto` VALUES (11, 'cod2', 'ARROZ', 100.500, 100.150, 'primera ');
 
 -- ----------------------------
 -- Table structure for proveedor
@@ -80,10 +81,28 @@ CREATE TABLE `proveedor`  (
 -- Records of proveedor
 -- ----------------------------
 INSERT INTO `proveedor` VALUES (4, 'placita', '1111111111');
-INSERT INTO `proveedor` VALUES (5, 'pru', '123444');
+INSERT INTO `proveedor` VALUES (5, 'prueba', '123444');
 INSERT INTO `proveedor` VALUES (6, 'local tres', '1266666666-1');
 INSERT INTO `proveedor` VALUES (7, 'pru', '123444');
 INSERT INTO `proveedor` VALUES (8, 'prueba', '45644565-1');
+
+-- ----------------------------
+-- Table structure for proveedorproducto
+-- ----------------------------
+DROP TABLE IF EXISTS `proveedorproducto`;
+CREATE TABLE `proveedorproducto`  (
+  `producto_id` bigint NOT NULL,
+  `proveedor_id` bigint NOT NULL,
+  INDEX `fk_producto`(`producto_id`) USING BTREE,
+  INDEX `fk_proveedor`(`proveedor_id`) USING BTREE,
+  CONSTRAINT `fk_producto` FOREIGN KEY (`producto_id`) REFERENCES `producto` (`id_producto`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_proveedor` FOREIGN KEY (`proveedor_id`) REFERENCES `proveedor` (`id_proveedor`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of proveedorproducto
+-- ----------------------------
+INSERT INTO `proveedorproducto` VALUES (11, 6);
 
 -- ----------------------------
 -- Table structure for usuario
@@ -106,7 +125,7 @@ CREATE TABLE `usuario`  (
 -- Records of usuario
 -- ----------------------------
 INSERT INTO `usuario` VALUES (1, 'lcalvarez', 'MTIz', 'julio cesar', 'alvarez cuaces', 'cll 10 # 42 c 25', 'lcalvarez@unicauca.educ.o', 1, 'admin');
-INSERT INTO `usuario` VALUES (2, 'useruno', 'MjEz', 'nombreuno', 'nombredos', 'direccion', 'correo', 1, 'usuario');
+INSERT INTO `usuario` VALUES (2, 'usuario', 'MTIz', 'nombreuno', 'nombredos', 'direccion', 'correo', 1, 'usuario');
 INSERT INTO `usuario` VALUES (3, 'usera', '', 'b', 'b', 'b', 'b', 1, 'usuario');
 INSERT INTO `usuario` VALUES (4, 'usera', '', 'b', 'b', 'b', 'b', 1, 'usuario');
 INSERT INTO `usuario` VALUES (5, 'usera', '', 'b', 'b', 'b', 'b', 1, 'usuario');

@@ -5,6 +5,7 @@
 package inventario.views;
 
 import inventario.config.Conexion;
+import inventario.modelo.Usuario;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 
@@ -101,7 +102,23 @@ public class Login extends javax.swing.JFrame {
             ResultSet respuesta = objConexion.consultarRegistro("select * from usuario where username = '"+user+"' and password = '"+passEncryptado+"' and estado = "+1);
             System.out.println("respuesta "+respuesta.isBeforeFirst());
             if(respuesta.isBeforeFirst()){//si retorna true si hay un valor se da acceso a la app
-                Inventario vistaIntenvario = new Inventario();//creo un objeto de la sigte vista
+//                Inventario vistaIntenvario = new Inventario();
+//                vistaIntenvario.setVisible(true);//la hago visible
+//                setVisible(false);//oculto la vista de login
+                
+                Usuario usuario = new Usuario();
+                while(respuesta.next()){
+                    usuario.setId_usuario(Long.parseLong(respuesta.getString("id_usuario")));
+                    usuario.setUsername(respuesta.getString("username"));
+                    usuario.setNombres(respuesta.getString("nombres"));
+                    usuario.setApellidos(respuesta.getString("apellidos"));
+                    usuario.setDireccion(respuesta.getString("direccion"));
+                    usuario.setCorreo(respuesta.getString("correo"));
+                    usuario.setEstado(Integer.parseInt(respuesta.getString("estado")));
+                    usuario.setRol(respuesta.getString("rol"));
+                }
+                System.out.println(""+usuario.toString());
+                Inventario vistaIntenvario = new Inventario(usuario);//creo un objeto de la sigte vista
                 vistaIntenvario.setVisible(true);//la hago visible
                 setVisible(false);//oculto la vista de login
             }

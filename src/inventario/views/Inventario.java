@@ -6,6 +6,7 @@ package inventario.views;
 
 import inventario.config.Conexion;
 import inventario.modelo.Producto;
+import inventario.modelo.Usuario;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.sql.ResultSet;
@@ -16,12 +17,34 @@ import javax.swing.table.DefaultTableModel;
 
 public class Inventario extends javax.swing.JFrame {
     DefaultTableModel model;
+    
     ArrayList<Producto> listaProductos;
     int posicion = -1;
-    /**
-     * Creates new form Inventario
-     */
+    Usuario usuario = null;
     public Inventario() {
+        initComponents();
+        Dimension pantalla = Toolkit.getDefaultToolkit().getScreenSize();
+        int height = pantalla.height;
+        int width = pantalla.width;
+        String[] titulos = {"ID_PRODUCTO","CODIGO","NOMBRE","CANTIDAD","PRECIO","CATEGORIA"};
+        
+        
+        model = new DefaultTableModel(null,titulos);
+        
+        tblProductos.setModel(model);
+        cargarDatos();
+//        setSize(width/2,height/2);//para darle tamaño a la vista
+        setLocationRelativeTo(null);//para posicionar en este caso centrar
+        
+//        tblProductos.removeColumn(tblProductos.getColumnModel().getColumn(0));
+//        lblUsuarioActual.setText("Bienvenido: "+this.usuario.getNombres()+" "+this.usuario.getApellidos());
+//        if(this.usuario.getRol().equals("usuario")){
+//            btnUsuarios.setVisible(false);
+//        }
+    }
+    
+    public Inventario(Usuario usuario){
+        this.usuario = usuario;
         initComponents();
         Dimension pantalla = Toolkit.getDefaultToolkit().getScreenSize();
         int height = pantalla.height;
@@ -35,6 +58,15 @@ public class Inventario extends javax.swing.JFrame {
         setLocationRelativeTo(null);//para posicionar en este caso centrar
         
         tblProductos.removeColumn(tblProductos.getColumnModel().getColumn(0));
+        lblUsuarioActual.setText("Bienvenido: "+this.usuario.getNombres()+" "+this.usuario.getApellidos());
+        if(this.usuario.getRol().equals("usuario")){
+            btnUsuarios.setVisible(false);
+        }
+        
+    }
+    
+    public void recuperarUsuario(Usuario usuario){
+        this.usuario = usuario;
     }
 
     /**
@@ -77,10 +109,11 @@ public class Inventario extends javax.swing.JFrame {
         txtPrecioActual = new javax.swing.JTextField();
         btnCancelarModificar = new javax.swing.JButton();
         lblCantidadActual = new javax.swing.JLabel();
+        lblUsuarioActual = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel1.setText("Inventario");
+        jLabel1.setText("INVENTARIO");
 
         btnProveedores.setText("Proveedores");
         btnProveedores.addActionListener(new java.awt.event.ActionListener() {
@@ -231,7 +264,7 @@ public class Inventario extends javax.swing.JFrame {
                 .addGroup(pnlAgregarProductoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel7)
                     .addComponent(txtCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
                 .addComponent(btnCandelarAgregar)
                 .addContainerGap())
         );
@@ -321,50 +354,59 @@ public class Inventario extends javax.swing.JFrame {
                 .addGap(32, 32, 32))
         );
 
+        lblUsuarioActual.setText("jLabel10");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(333, 333, 333)
-                .addComponent(jLabel1)
+                .addGap(43, 43, 43)
+                .addComponent(btnProveedores)
+                .addGap(181, 181, 181)
+                .addComponent(btnProductos)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 416, Short.MAX_VALUE)
+                .addComponent(btnUsuarios)
+                .addGap(84, 84, 84))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(135, 135, 135)
+                .addComponent(pnlAgregarProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 329, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(pnlEdidarProducto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
-                .addGap(43, 43, 43)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnProveedores)
-                        .addGap(181, 181, 181)
-                        .addComponent(btnProductos)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnUsuarios)
-                        .addGap(84, 84, 84))
+                        .addGap(127, 127, 127)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 673, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                .addComponent(pnlAgregarProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 329, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(pnlEdidarProducto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 673, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(49, Short.MAX_VALUE))))
+                        .addGap(405, 405, 405)
+                        .addComponent(jLabel1))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(52, 52, 52)
+                        .addComponent(lblUsuarioActual)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(12, 12, 12)
+                .addComponent(lblUsuarioActual)
+                .addGap(64, 64, 64)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnProveedores)
                     .addComponent(btnProductos)
                     .addComponent(btnUsuarios))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(24, 24, 24)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(pnlEdidarProducto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(pnlAgregarProducto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(pnlEdidarProducto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(75, 75, 75))
+                    .addComponent(pnlAgregarProducto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18))
+                .addGap(179, 179, 179))
         );
 
         pack();
@@ -611,6 +653,7 @@ public class Inventario extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblCantidadActual;
+    private javax.swing.JLabel lblUsuarioActual;
     private javax.swing.JPanel pnlAgregarProducto;
     private javax.swing.JPanel pnlEdidarProducto;
     private javax.swing.JTable tblProductos;
