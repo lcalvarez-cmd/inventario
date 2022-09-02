@@ -43,7 +43,7 @@ public class FormProveedor extends javax.swing.JFrame {
         cargarProductos();
 //        iniciarTabla(); //metodo que podria ir mejor para visibilizar los datos
         //ocultamos la columna 0 id_proveedor
-        tblProveedores.removeColumn(tblProveedores.getColumnModel().getColumn(0));
+//        tblProveedores.removeColumn(tblProveedores.getColumnModel().getColumn(0));
         limpiar();
     }
 
@@ -511,15 +511,21 @@ public class FormProveedor extends javax.swing.JFrame {
         try {
             Conexion objConexion = new Conexion();
             objConexion.conectar();
+            //recuperamos el id del producto.
             ResultSet respuesta = objConexion.consultarRegistro("Select * from producto where codigo = '"+codProducto+ "'");
             while(respuesta.next()){
                 productoAgregar = new Producto();
                 productoAgregar.setId_producto(Long.parseLong(respuesta.getString("id_producto")));
             }
-            String sentencia = "INSERT INTO proveedorproducto (producto_id,proveedor_id) VALUES ('"+productoAgregar.getId_producto()+"','"+proveedorEditar.getId_proveedor()+"')";
-            System.out.println("Sentencia: "+sentencia);
-            objConexion.ejecutarSentenciSQL(sentencia);
-            objConexion.desconectar();
+            //verificamos que este producto ya no este asociado al producto// no queremos que se registre en el proveedor n productos iguales
+            ResultSet resproducto = objConexion.consultarRegistro("SELECT * FROM proveedorproducto WHERE proveedor_id  = "+proveedorEditar.getId_proveedor()+" AND producto_id =" +productoAgregar.getId_producto());
+            if(!resproducto.isBeforeFirst()){//si no tiene este registro
+                String sentencia = "INSERT INTO proveedorproducto (producto_id,proveedor_id) VALUES ('"+productoAgregar.getId_producto()+"','"+proveedorEditar.getId_proveedor()+"')";
+                objConexion.ejecutarSentenciSQL(sentencia);
+                objConexion.desconectar();
+                cargarDatos();
+                cargarProductos();
+            }
         } catch (Exception e) {
             System.err.println("Error en btn agregar procto "+e);
         }
@@ -603,9 +609,22 @@ public class FormProveedor extends javax.swing.JFrame {
                     telefonos = respuestadatos.getString("telefono") + " \n " + telefonos;
                     direcciones = respuestadatos.getString("direccion") + " \n " + direcciones;
                 }
+                //recuperando los productos de este proveedor
+                ResultSet respuestaProductos = objConexion.consultarRegistro("SELECT pd.* FROM proveedor AS pv INNER JOIN proveedorproducto AS pvpd ON  pv.id_proveedor = pvpd.proveedor_id INNER JOIN producto AS pd ON pvpd.producto_id = pd.id_producto WHERE pv.id_proveedor = " + Long.parseLong(respuestaProveedor.getString("id_proveedor")));
+                String productos ="";
+                while(respuestaProductos.next()){
+                    Producto producto = new Producto();
+                    producto.setId_producto(Long.parseLong(respuestaProductos.getString("id_producto")));
+                    producto.setCodigo(respuestaProductos.getString("codigo"));
+                    producto.setNombre(respuestaProductos.getString("nombre"));
+                    producto.setCantidad(Double.parseDouble(respuestaProductos.getString("cantidad")));
+                    producto.setPrecio(Double.parseDouble(respuestaProductos.getString("precio")));
+                    producto.setCategoria(respuestaProductos.getString("categoria"));
+                    productos = producto.getNombre() + " \n " + productos;
+                }
                 //agragamos cada proveedor a una lista de proveedores
                 listProveedores.add(proveedor);
-                Object[] objProveedor = {respuestaProveedor.getString("id_proveedor"), respuestaProveedor.getString("nit"), respuestaProveedor.getString("nombre"), direcciones, telefonos};//,respuesta.getString("direccion"),respuesta.getString("telefono")
+                Object[] objProveedor = {respuestaProveedor.getString("id_proveedor"), respuestaProveedor.getString("nit"), respuestaProveedor.getString("nombre"), direcciones, telefonos, productos};//,respuesta.getString("direccion"),respuesta.getString("telefono")
                 model.addRow(objProveedor);
             }
             

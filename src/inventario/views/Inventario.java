@@ -440,6 +440,7 @@ public class Inventario extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "codigo ya registrado");
             }
             objConexion.desconectar();
+            cargarDatos();
         } catch (Exception ex) {
             System.err.println("Error al guardar " + ex);
         }

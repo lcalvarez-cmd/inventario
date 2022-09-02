@@ -8,6 +8,7 @@ public class Proveedor {
     private String nombre;
     private String nit;
     private ArrayList<DatosContacto> datos;
+    private ArrayList<Producto> productos;
 
     public Proveedor() {
     }
@@ -50,6 +51,14 @@ public class Proveedor {
         this.datos = datos;
     }
 
+    public ArrayList<Producto> getProductos() {
+        return productos;
+    }
+
+    public void setProductos(ArrayList<Producto> productos) {
+        this.productos = productos;
+    }
+
     public void agregarDatos(DatosContacto datos){
         if(this.datos == null){
             this.datos = new ArrayList<>();
@@ -57,5 +66,10 @@ public class Proveedor {
         this.datos.add(datos);
     }
           
-    
+    public void agregarProducto(Producto producto){
+        if(this.productos == null){
+            this.productos = new ArrayList<>();
+        }
+        this.productos.add(producto);
+    }
 }
