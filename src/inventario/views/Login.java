@@ -99,13 +99,9 @@ public class Login extends javax.swing.JFrame {
         System.out.println("password encriptado "+passEncryptado);
         try{
             //enviamos la consulta con el where
-            ResultSet respuesta = objConexion.consultarRegistro("select * from usuario where username = '"+user+"' and password = '"+passEncryptado+"' and estado = "+1);
+            ResultSet respuesta = objConexion.consultarRegistro("select * from usuario where username = '"+user+"' and password = '"+passEncryptado+"'");//and estado = "+1
             System.out.println("respuesta "+respuesta.isBeforeFirst());
             if(respuesta.isBeforeFirst()){//si retorna true si hay un valor se da acceso a la app
-//                Inventario vistaIntenvario = new Inventario();
-//                vistaIntenvario.setVisible(true);//la hago visible
-//                setVisible(false);//oculto la vista de login
-                
                 Usuario usuario = new Usuario();
                 while(respuesta.next()){
                     usuario.setId_usuario(Long.parseLong(respuesta.getString("id_usuario")));
@@ -117,17 +113,18 @@ public class Login extends javax.swing.JFrame {
                     usuario.setEstado(Integer.parseInt(respuesta.getString("estado")));
                     usuario.setRol(respuesta.getString("rol"));
                 }
-                System.out.println(""+usuario.toString());
-                Inventario vistaIntenvario = new Inventario(usuario);//creo un objeto de la sigte vista
-                vistaIntenvario.setVisible(true);//la hago visible
-                setVisible(false);//oculto la vista de login
+//                System.out.println(""+usuario.toString());
+                if(usuario.getEstado() == 1){
+                    Inventario vistaIntenvario = new Inventario(usuario);//creo un objeto de la sigte vista y le paso la info del usuario
+                    vistaIntenvario.setVisible(true);//la hago visible
+                    setVisible(false);//oculto la vista de login
+                }else{
+                    JOptionPane.showMessageDialog(null, "Usuario desactivado");
+                }
             }
             else{
                 JOptionPane.showMessageDialog(null, "Error en las credenciales");
             }
-//            while(respuesta.next()){
-//                System.out.println(respuesta.getString("nombres"));
-//            }
             objConexion.desconectar();
         }catch(Exception ex){
             System.out.println("Error al ingresar "+ex);

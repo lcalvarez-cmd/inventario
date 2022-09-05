@@ -30,11 +30,12 @@ public class Inventario extends javax.swing.JFrame {
         
         
         model = new DefaultTableModel(null,titulos);
-        
+        pnlEdidarProducto.setVisible(false);
         tblProductos.setModel(model);
         cargarDatos();
 //        setSize(width/2,height/2);//para darle tamaño a la vista
         setLocationRelativeTo(null);//para posicionar en este caso centrar
+        txtIdProducto.setVisible(false);
         
 //        tblProductos.removeColumn(tblProductos.getColumnModel().getColumn(0));
 //        lblUsuarioActual.setText("Bienvenido: "+this.usuario.getNombres()+" "+this.usuario.getApellidos());
@@ -47,6 +48,7 @@ public class Inventario extends javax.swing.JFrame {
         this.usuario = usuario;
         initComponents();
         Dimension pantalla = Toolkit.getDefaultToolkit().getScreenSize();
+        pnlEdidarProducto.setVisible(false);
         int height = pantalla.height;
         int width = pantalla.width;
         String[] titulos = {"ID_PRODUCTO","CODIGO","NOMBRE","CANTIDAD","PRECIO","CATEGORIA"};
@@ -56,6 +58,7 @@ public class Inventario extends javax.swing.JFrame {
         cargarDatos();
 //        setSize(width/2,height/2);//para darle tamaño a la vista
         setLocationRelativeTo(null);//para posicionar en este caso centrar
+        txtIdProducto.setVisible(false);
         
         tblProductos.removeColumn(tblProductos.getColumnModel().getColumn(0));
         lblUsuarioActual.setText("Bienvenido: "+this.usuario.getNombres()+" "+this.usuario.getApellidos());
@@ -430,17 +433,18 @@ public class Inventario extends javax.swing.JFrame {
             Conexion objConexion = new Conexion();
             objConexion.conectar();
             Producto objProducto = recuperarDatosGUI();
-            System.out.println("" + objProducto.toString());
-            ResultSet respuesta = objConexion.consultarRegistro("Select * from producto where codigo = '" + objProducto.getCodigo() + "'");
-            if (!respuesta.isBeforeFirst()) {//si retorna false el codigo no esta el la bd
+            if(objProducto != null){
+                ResultSet respuesta = objConexion.consultarRegistro("Select * from producto where codigo = '" + objProducto.getCodigo() + "'");
+                if (!respuesta.isBeforeFirst()) {//si retorna false el codigo no esta el la bd
                 String sentencia = "INSERT INTO producto (codigo,nombre,cantidad,precio,categoria) VALUES('"+objProducto.getCodigo()+"','"+objProducto.getNombre()+"','"+objProducto.getCantidad()+"','"+objProducto.getPrecio()+"','"+objProducto.getCategoria()+"')";
                 System.out.println("la sentencia es " + sentencia);
                 objConexion.ejecutarSentenciSQL(sentencia);
-            }else{
-                JOptionPane.showMessageDialog(null, "codigo ya registrado");
+                }else{
+                    JOptionPane.showMessageDialog(null, "codigo ya registrado");
+                }
+                objConexion.desconectar();
+                cargarDatos();
             }
-            objConexion.desconectar();
-            cargarDatos();
         } catch (Exception ex) {
             System.err.println("Error al guardar " + ex);
         }
@@ -583,6 +587,7 @@ public class Inventario extends javax.swing.JFrame {
                 || txtCodigoProducto.getText().isBlank() || txtNombreProducto.getText().isBlank() || txtCantidad.getText().isBlank() || txtPrecioUnidad.getText().isBlank() || txtCategoria.getText().isBlank()) {
 
             JOptionPane.showMessageDialog(null, "Hay campos vacios");
+            return null;
         } else {
             producto.setId_producto(Long.parseLong(txtIdProducto.getText()));
             producto.setCodigo(txtCodigoProducto.getText());
@@ -594,8 +599,8 @@ public class Inventario extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Error en algun valor númerico");
             }
             producto.setCategoria(txtCategoria.getText());
+            return producto;
         }
-        return producto;
     }
 
     /**

@@ -45,6 +45,7 @@ public class FormProveedor extends javax.swing.JFrame {
         //ocultamos la columna 0 id_proveedor
 //        tblProveedores.removeColumn(tblProveedores.getColumnModel().getColumn(0));
         limpiar();
+        pnlAgregarProductos.setVisible(false);
     }
 
     /**
@@ -78,12 +79,14 @@ public class FormProveedor extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         btnCancelar = new javax.swing.JButton();
         txtNombre = new javax.swing.JTextField();
+        jLabel11 = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
         pnlAgregarProductos = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         txtCodigoProducto = new javax.swing.JTextField();
         btnAgregarProducto = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        btnRetirarProducto = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblProductos = new javax.swing.JTable();
 
@@ -131,6 +134,8 @@ public class FormProveedor extends javax.swing.JFrame {
             }
         });
 
+        txtIdProveedor.setText("000");
+
         txtTelefonoDos.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 txtTelefonoDosKeyTyped(evt);
@@ -164,6 +169,10 @@ public class FormProveedor extends javax.swing.JFrame {
                 btnCancelarActionPerformed(evt);
             }
         });
+
+        jLabel11.setText("*");
+
+        jLabel12.setText("*");
 
         javax.swing.GroupLayout pnlAgregarProveedorLayout = new javax.swing.GroupLayout(pnlAgregarProveedor);
         pnlAgregarProveedor.setLayout(pnlAgregarProveedorLayout);
@@ -200,7 +209,11 @@ public class FormProveedor extends javax.swing.JFrame {
                                 .addGap(75, 75, 75)
                                 .addGroup(pnlAgregarProveedorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(txtNombre)
-                                    .addComponent(txtNit, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addComponent(txtNit, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(pnlAgregarProveedorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel11)
+                                    .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(pnlAgregarProveedorLayout.createSequentialGroup()
                                 .addGap(33, 33, 33)
                                 .addComponent(jLabel1)
@@ -218,11 +231,13 @@ public class FormProveedor extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(pnlAgregarProveedorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel11))
                 .addGap(3, 3, 3)
                 .addGroup(pnlAgregarProveedorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(txtNit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtNit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel12))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel10)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -246,7 +261,7 @@ public class FormProveedor extends javax.swing.JFrame {
                     .addComponent(btnCancelar)
                     .addComponent(btnEditar)
                     .addComponent(btnAgregar))
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGap(0, 38, Short.MAX_VALUE))
         );
 
         pnlAgregarProductos.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -262,7 +277,12 @@ public class FormProveedor extends javax.swing.JFrame {
             }
         });
 
-        jButton2.setText("Retirar Producto");
+        btnRetirarProducto.setText("Retirar Producto");
+        btnRetirarProducto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRetirarProductoActionPerformed(evt);
+            }
+        });
 
         tblProductos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -297,7 +317,7 @@ public class FormProveedor extends javax.swing.JFrame {
                             .addGroup(pnlAgregarProductosLayout.createSequentialGroup()
                                 .addComponent(btnAgregarProducto)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton2))
+                                .addComponent(btnRetirarProducto))
                             .addGroup(pnlAgregarProductosLayout.createSequentialGroup()
                                 .addGap(53, 53, 53)
                                 .addComponent(jLabel9)
@@ -320,7 +340,7 @@ public class FormProveedor extends javax.swing.JFrame {
                 .addGap(34, 34, 34)
                 .addGroup(pnlAgregarProductosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAgregarProducto)
-                    .addComponent(jButton2))
+                    .addComponent(btnRetirarProducto))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(15, Short.MAX_VALUE))
@@ -364,11 +384,13 @@ public class FormProveedor extends javax.swing.JFrame {
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         limpiar();
+        pnlAgregarProductos.setVisible(false);
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
         Conexion objConexion = new Conexion();
         Proveedor objProveedor = recuperarDatosGUI();
+        System.out.println("id "+objProveedor.getId_proveedor());
         try {
             ResultSet respuesta = objConexion.consultarRegistro("SELECT * FROM proveedor WHERE id_proveedor = "+objProveedor.getId_proveedor());
             String nit = "";
@@ -386,6 +408,7 @@ public class FormProveedor extends javax.swing.JFrame {
             }else{
                 String sentencia = String.format("UPDATE proveedor SET nit = '%s', nombre = '%s' where id_proveedor = %d" ,objProveedor.getNit(), objProveedor.getNombre(),objProveedor.getId_proveedor());
                 objConexion.ejecutarSentenciSQL(sentencia);
+                System.out.println("ejecutar sentencia");
                 this.cargarDatos();
             }
             objConexion.desconectar();
@@ -402,28 +425,35 @@ public class FormProveedor extends javax.swing.JFrame {
     }//GEN-LAST:event_btnVolverActionPerformed
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
-        Conexion objConexion = new Conexion();
-        Proveedor objProveedor = recuperarDatosGUI();
+        
         try {
+            Conexion objConexion = new Conexion();
+            System.out.println("Recuperando datos");
+            Proveedor objProveedor = recuperarDatosGUI();
+            System.out.println("luego de recuperar los datos de gui");
             //verificamos que el nit ya no este registrado
-            ResultSet respuesta = objConexion.consultarRegistro("Select * from proveedor where nit = '" + objProveedor.getNit() + "'");
-            if (!respuesta.isBeforeFirst()) {//si este nit no esta en la bd
-                String sentenciauno = String.format("INSERT INTO proveedor (nombre,nit) VALUES ('%s','%s')", objProveedor.getNombre(), objProveedor.getNit());
-                objConexion.ejecutarSentenciSQL(sentenciauno);//se crea el proveedor 
-                respuesta = objConexion.consultarRegistro("Select * from proveedor where nit = '" + objProveedor.getNit() + "'");
-                long id_proveedor = 0;
-                while (respuesta.next()) {//obtengo el id para agregar los datos el id
-                    id_proveedor = Long.parseLong(respuesta.getString("id_proveedor"));
+            if(objProveedor != null){
+                System.out.println("se recupero "+objProveedor.getNit());
+                System.out.println("se recupero "+objProveedor.getNombre());
+                ResultSet respuesta = objConexion.consultarRegistro("Select * from proveedor where nit = '" + objProveedor.getNit() + "'");
+                if (!respuesta.isBeforeFirst()) {//si este nit no esta en la bd
+                    String sentenciauno = String.format("INSERT INTO proveedor (nombre,nit) VALUES ('%s','%s')", objProveedor.getNombre(), objProveedor.getNit());
+                    objConexion.ejecutarSentenciSQL(sentenciauno);//se crea el proveedor 
+                    respuesta = objConexion.consultarRegistro("Select * from proveedor where nit = '" + objProveedor.getNit() + "'");
+                    long id_proveedor = 0;
+                    while (respuesta.next()) {//obtengo el id para agregar los datos el id
+                        id_proveedor = Long.parseLong(respuesta.getString("id_proveedor"));
+                    }
+                    for (int i = 0; i < objProveedor.getDatos().size(); i++) {
+                        String sentenciados = String.format("INSERT INTO datoscontacto (telefono,direccion,id_proveedor) VALUES ('%d','%s','%d')", objProveedor.getDatos().get(i).getTelefono(), objProveedor.getDatos().get(i).getDireccion(), id_proveedor);
+                        objConexion.ejecutarSentenciSQL(sentenciados);
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null, "NIT ya registrado" );
                 }
-                for (int i = 0; i < objProveedor.getDatos().size(); i++) {
-                    String sentenciados = String.format("INSERT INTO datoscontacto (telefono,direccion,id_proveedor) VALUES ('%d','%s','%d')", objProveedor.getDatos().get(i).getTelefono(), objProveedor.getDatos().get(i).getDireccion(), id_proveedor);
-                    objConexion.ejecutarSentenciSQL(sentenciados);
-                }
-            } else {
-                JOptionPane.showMessageDialog(null, "NIT ya registrado");
             }
         } catch (Exception e) {
-            System.out.println("Error al insertar proveedor");
+            System.out.println("Error al insertar proveedor"+e);
         }
         cargarDatos();
     }//GEN-LAST:event_btnAgregarActionPerformed
@@ -466,6 +496,9 @@ public class FormProveedor extends javax.swing.JFrame {
                 btnAgregar.setEnabled(false);
                 btnEditar.setEnabled(true);
                 btnCancelar.setEnabled(true);
+                
+                pnlAgregarProductos.setVisible(true);
+                
             } catch (Exception e) {
                 System.out.println("Error al querer montar los datos al dar click "+e);
             }
@@ -532,28 +565,58 @@ public class FormProveedor extends javax.swing.JFrame {
         
     }//GEN-LAST:event_btnAgregarProductoActionPerformed
 
+    private void btnRetirarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRetirarProductoActionPerformed
+        String codProducto = txtCodigoProducto.getText();
+        try {
+            Conexion objConexion = new Conexion();
+            objConexion.conectar();
+            //recuperamos el id del producto.
+            ResultSet respuesta = objConexion.consultarRegistro("Select * from producto where codigo = '"+codProducto+ "'");
+            while(respuesta.next()){
+                productoAgregar = new Producto();
+                productoAgregar.setId_producto(Long.parseLong(respuesta.getString("id_producto")));
+            }
+            //verificamos que este producto ya no este asociado al producto// no queremos que se registre en el proveedor n productos iguales
+            String strSentenciaInsert = String.format("DELETE FROM proveedorproducto WHERE proveedor_id  = "+proveedorEditar.getId_proveedor()+" AND producto_id =" +productoAgregar.getId_producto());
+            objConexion.ejecutarSentenciSQL(strSentenciaInsert);
+            this.cargarDatos();
+            
+        } catch (Exception e) {
+            System.err.println("Error en btn agregar procto "+e);
+        }
+    }//GEN-LAST:event_btnRetirarProductoActionPerformed
+
     //con este medoto obtenemos cada txt que hay en la vista
     public Proveedor recuperarDatosGUI() {//recuperamso datos y los seteamos al objProveedor que
         //tiene una lista de obj de datos //ya que puede tener dos tel y dos dircc
         Proveedor objProveedor = new Proveedor();
-        objProveedor.setId_proveedor(Long.parseLong(txtIdProveedor.getText()));
-        objProveedor.setNombre(txtNombre.getText());
-        objProveedor.setNit(txtNit.getText());
-        
-        DatosContacto datos = new DatosContacto();
-        datos.setDireccion(txtDireccionUno.getText());
-        if (!txtTelefonoUno.getText().isEmpty()) {//debo validar que este vacio, porque si no al convertir un vacio se genera error
-            datos.setTelefono(Long.parseLong(txtTelefonoUno.getText()));
+        if( !txtNombre.getText().isBlank() || !txtNit.getText().isBlank() || !txtNombre.getText().isEmpty() || !txtNit.getText().isEmpty()){
+            
+            if(!txtIdProveedor.getText().isBlank() || !txtIdProveedor.getText().isEmpty()){
+                objProveedor.setId_proveedor(Long.parseLong(txtIdProveedor.getText()));
+            }
+            objProveedor.setNombre(txtNombre.getText());
+            objProveedor.setNit(txtNit.getText());
+
+            DatosContacto datos = new DatosContacto();
+            datos.setDireccion(txtDireccionUno.getText());
+            if (!txtTelefonoUno.getText().isEmpty() || !txtTelefonoUno.getText().isBlank()) {//debo validar que este vacio, porque si no al convertir un vacio se genera error
+                datos.setTelefono(Long.parseLong(txtTelefonoUno.getText()));
+            }
+            objProveedor.agregarDatos(datos);
+
+            datos = new DatosContacto();
+            datos.setDireccion(txtDireccionDos.getText());
+            if (!txtTelefonoDos.getText().isEmpty() || !txtTelefonoDos.getText().isBlank()) {
+                datos.setTelefono(Integer.parseInt(txtTelefonoDos.getText()));
+            }
+            objProveedor.agregarDatos(datos);
+            return objProveedor;
         }
-        objProveedor.agregarDatos(datos);
-        
-        datos = new DatosContacto();
-        datos.setDireccion(txtDireccionDos.getText());
-        if (!txtTelefonoDos.getText().isEmpty()) {
-            datos.setTelefono(Integer.parseInt(txtTelefonoDos.getText()));
+        else{
+            JOptionPane.showMessageDialog(null, "Campos obligatorios vacios");
+            return null;
         }
-        objProveedor.agregarDatos(datos);
-        return objProveedor;
     }
     
     public void cargarProductos(){
@@ -762,10 +825,12 @@ public class FormProveedor extends javax.swing.JFrame {
     private javax.swing.JButton btnAgregarProducto;
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnEditar;
+    private javax.swing.JButton btnRetirarProducto;
     private javax.swing.JButton btnVolver;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
