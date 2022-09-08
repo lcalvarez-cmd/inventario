@@ -6,6 +6,7 @@ import inventario.config.Conexion;
 import inventario.modelo.DatosContacto;
 import inventario.modelo.Producto;
 import inventario.modelo.Proveedor;
+import inventario.modelo.Usuario;
 import inventario.tabla.CeldaRenderer;
 import inventario.tabla.EncabezadoRenderer;
 import inventario.tabla.TablaModelo;
@@ -22,6 +23,7 @@ public class FormProveedor extends javax.swing.JFrame {
     ArrayList<Proveedor> listProveedores;
     Proveedor proveedorEditar ;
     Producto productoAgregar;
+    Usuario usuario;
 //    private JComboBox combo;
 //    private JTextField tf;
 
@@ -41,6 +43,28 @@ public class FormProveedor extends javax.swing.JFrame {
         tblProductos.setModel(modelProductos);
         cargarDatos();
         cargarProductos();
+//        iniciarTabla(); //metodo que podria ir mejor para visibilizar los datos
+        //ocultamos la columna 0 id_proveedor
+//        tblProveedores.removeColumn(tblProveedores.getColumnModel().getColumn(0));
+        limpiar();
+        pnlAgregarProductos.setVisible(false);
+    }
+    
+    public FormProveedor(Usuario usuario) {
+        initComponents();
+        setLocationRelativeTo(null);
+        String[] tituos = {"ID_PROVEEDOR", "NIT", "NOMBRE", "DIRECCIÓN", "TELEFONO", "PRODUCTOS"};
+        String [] tituloProductos = {"ID_PRODUCTO","CODIGO","NOMBRE"};
+
+        txtIdProveedor.setVisible(false);
+        model = new DefaultTableModel(null, tituos);
+        modelProductos = new DefaultTableModel(null, tituloProductos);
+        tblProveedores.setModel(model);
+        tblProductos.setModel(modelProductos);
+        cargarDatos();
+        cargarProductos();
+        this.usuario = usuario;
+        lblUsuario.setText("Usuario: "+this.usuario.getNombres()+" "+this.usuario.getApellidos());
 //        iniciarTabla(); //metodo que podria ir mejor para visibilizar los datos
         //ocultamos la columna 0 id_proveedor
 //        tblProveedores.removeColumn(tblProveedores.getColumnModel().getColumn(0));
@@ -89,6 +113,8 @@ public class FormProveedor extends javax.swing.JFrame {
         btnRetirarProducto = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblProductos = new javax.swing.JTable();
+        lblUsuario = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -261,7 +287,7 @@ public class FormProveedor extends javax.swing.JFrame {
                     .addComponent(btnCancelar)
                     .addComponent(btnEditar)
                     .addComponent(btnAgregar))
-                .addGap(0, 38, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pnlAgregarProductos.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -346,6 +372,10 @@ public class FormProveedor extends javax.swing.JFrame {
                 .addContainerGap(15, Short.MAX_VALUE))
         );
 
+        lblUsuario.setText("jLabel13");
+
+        jLabel13.setText("Opciones Porveedor");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -353,30 +383,41 @@ public class FormProveedor extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(86, 86, 86)
+                        .addGap(19, 19, 19)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 907, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(pnlAgregarProveedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(pnlAgregarProductos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addGap(63, 63, 63)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 907, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(pnlAgregarProveedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(pnlAgregarProductos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(btnVolver)))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(23, 23, 23)
-                        .addComponent(btnVolver)))
-                .addContainerGap(32, Short.MAX_VALUE))
+                        .addGap(123, 123, 123)
+                        .addComponent(lblUsuario))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(453, 453, 453)
+                        .addComponent(jLabel13)))
+                .addContainerGap(36, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(23, 23, 23)
+                .addComponent(jLabel13)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
+                .addComponent(lblUsuario)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(pnlAgregarProveedor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(pnlAgregarProductos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(pnlAgregarProductos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(31, 31, 31)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 263, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnVolver)
-                .addContainerGap(22, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         pack();
@@ -390,7 +431,6 @@ public class FormProveedor extends javax.swing.JFrame {
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
         Conexion objConexion = new Conexion();
         Proveedor objProveedor = recuperarDatosGUI();
-        System.out.println("id "+objProveedor.getId_proveedor());
         try {
             ResultSet respuesta = objConexion.consultarRegistro("SELECT * FROM proveedor WHERE id_proveedor = "+objProveedor.getId_proveedor());
             String nit = "";
@@ -399,16 +439,44 @@ public class FormProveedor extends javax.swing.JFrame {
                 //si no cambia entonces no hago nada
                 nit = respuesta.getString("nit");
             }
-            System.out.println("nit: "+nit);
             if (!objProveedor.getNit().equals(nit)) {// si el nit se cambia verificamos que este disponible
                 ResultSet nitbd = objConexion.consultarRegistro("SELECT * FROM proveedor WHERE nit = '"+objProveedor.getNit()+"'");
                 if(nitbd.isBeforeFirst()){//entonces si hay un nit ya registrado con ese nit nuevo
                     JOptionPane.showMessageDialog(null, "Este Nit ya se encuentra registrado");
+                }else{
+                    String sentencia = String.format("UPDATE proveedor SET nit = '%s', nombre = '%s' where id_proveedor = %d" ,objProveedor.getNit(), objProveedor.getNombre(),objProveedor.getId_proveedor());
+                    objConexion.ejecutarSentenciSQL(sentencia);
+                    //buscar datos por id del proveedor
+                    ResultSet datosbd = objConexion.consultarRegistro("SELECT * FROM datoscontacto where id_proveedor = "+objProveedor.getId_proveedor());
+                    //recuperamos los id de los datoscontacto
+                    int k = 0;
+                    while(datosbd.next()){
+                        objProveedor.getDatos().get(k).setId_datoscontacto(Long.parseLong(datosbd.getString("id_datoscontacto")));
+                        k++;
+                    }
+                    for (int i = 0; i < objProveedor.getDatos().size(); i++) {
+                        String sentenciados = String.format("UPDATE datoscontacto SET telefono = %d, direccion = '%s' where id_datoscontacto = %d", 
+                                        objProveedor.getDatos().get(i).getTelefono(),objProveedor.getDatos().get(i).getDireccion(),objProveedor.getDatos().get(i).getId_datoscontacto());
+                        objConexion.ejecutarSentenciSQL(sentenciados);
+                    }
+                    this.cargarDatos();
                 }
-            }else{
+            }else{//este se ejecuta si el nit es el mismo (se podria evaluar para no repetir las mismas lineas de codigo
                 String sentencia = String.format("UPDATE proveedor SET nit = '%s', nombre = '%s' where id_proveedor = %d" ,objProveedor.getNit(), objProveedor.getNombre(),objProveedor.getId_proveedor());
                 objConexion.ejecutarSentenciSQL(sentencia);
-                System.out.println("ejecutar sentencia");
+                //buscar datos por id del proveedor
+                ResultSet datosbd = objConexion.consultarRegistro("SELECT * FROM datoscontacto where id_proveedor = "+objProveedor.getId_proveedor());
+                //recuperamos los id de los datoscontacto
+                int k = 0;
+                while(datosbd.next()){
+                    objProveedor.getDatos().get(k).setId_datoscontacto(Long.parseLong(datosbd.getString("id_datoscontacto")));
+                    k++;
+                }
+                for (int i = 0; i < objProveedor.getDatos().size(); i++) {
+                    String sentenciados = String.format("UPDATE datoscontacto SET telefono = %d, direccion = '%s' where id_datoscontacto = %d", 
+                                    objProveedor.getDatos().get(i).getTelefono(),objProveedor.getDatos().get(i).getDireccion(),objProveedor.getDatos().get(i).getId_datoscontacto());
+                    objConexion.ejecutarSentenciSQL(sentenciados);
+                }
                 this.cargarDatos();
             }
             objConexion.desconectar();
@@ -419,7 +487,7 @@ public class FormProveedor extends javax.swing.JFrame {
     }//GEN-LAST:event_btnEditarActionPerformed
 
     private void btnVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVolverActionPerformed
-        Inventario vistaIntenvario = new Inventario();//creo un objeto de la sigte vista
+        Inventario vistaIntenvario = new Inventario(this.usuario);//creo un objeto de la sigte vista
         vistaIntenvario.setVisible(true);//la hago visible
         setVisible(false);//oculto la vista de login
     }//GEN-LAST:event_btnVolverActionPerformed
@@ -428,13 +496,9 @@ public class FormProveedor extends javax.swing.JFrame {
         
         try {
             Conexion objConexion = new Conexion();
-            System.out.println("Recuperando datos");
             Proveedor objProveedor = recuperarDatosGUI();
-            System.out.println("luego de recuperar los datos de gui");
             //verificamos que el nit ya no este registrado
             if(objProveedor != null){
-                System.out.println("se recupero "+objProveedor.getNit());
-                System.out.println("se recupero "+objProveedor.getNombre());
                 ResultSet respuesta = objConexion.consultarRegistro("Select * from proveedor where nit = '" + objProveedor.getNit() + "'");
                 if (!respuesta.isBeforeFirst()) {//si este nit no esta en la bd
                     String sentenciauno = String.format("INSERT INTO proveedor (nombre,nit) VALUES ('%s','%s')", objProveedor.getNombre(), objProveedor.getNit());
@@ -466,7 +530,6 @@ public class FormProveedor extends javax.swing.JFrame {
                 JTable receptor = (JTable) evt.getSource();
                 //capturamos el id para buscar los datos ya que los telefonos direcciones y productos estan concatenados
                 //dela columna 0 que esta oculta
-                System.out.println("id:" + receptor.getModel().getValueAt(receptor.getSelectedRow(), 0)+":");
                 String idS = (String) receptor.getModel().getValueAt(receptor.getSelectedRow(), 0);
                 long id = Long.parseLong(idS);
                 proveedorEditar.setId_proveedor(id);
@@ -475,7 +538,6 @@ public class FormProveedor extends javax.swing.JFrame {
                     proveedorEditar.setId_proveedor(Long.parseLong(respuestaProveedor.getString("id_proveedor")));
                     proveedorEditar.setNombre(respuestaProveedor.getString("nombre"));
                     proveedorEditar.setNit(respuestaProveedor.getString("nit"));
-                    
                     ResultSet respuestadatos = objConexion.consultarRegistro("SELECT * FROM datoscontacto where id_proveedor = " + id);
                     while (respuestadatos.next()) {//ahora recorremos uno a uno los datos que tenga ese proveedor 
                         DatosContacto datos = new DatosContacto();//llenamos los datos en el objeto
@@ -484,8 +546,6 @@ public class FormProveedor extends javax.swing.JFrame {
                         proveedorEditar.agregarDatos(datos); // lo agregamos al objeto programador 
                     }
                 }
-                
-//                System.out.println("Prveedor "+proveedor.getId_proveedor());
                 txtIdProveedor.setText(""+proveedorEditar.getId_proveedor());
                 txtNit.setText(proveedorEditar.getNit());
                 txtNombre.setText(proveedorEditar.getNombre());
@@ -496,7 +556,6 @@ public class FormProveedor extends javax.swing.JFrame {
                 btnAgregar.setEnabled(false);
                 btnEditar.setEnabled(true);
                 btnCancelar.setEnabled(true);
-                
                 pnlAgregarProductos.setVisible(true);
                 
             } catch (Exception e) {
@@ -539,6 +598,7 @@ public class FormProveedor extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_tblProductosMouseClicked
 
+    //metodo para agregar un producto al proveedor (por ids)
     private void btnAgregarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarProductoActionPerformed
         String codProducto = txtCodigoProducto.getText();
         try {
@@ -562,9 +622,9 @@ public class FormProveedor extends javax.swing.JFrame {
         } catch (Exception e) {
             System.err.println("Error en btn agregar procto "+e);
         }
-        
     }//GEN-LAST:event_btnAgregarProductoActionPerformed
 
+    //metodo para ritara el producto agregado aun proveedor
     private void btnRetirarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRetirarProductoActionPerformed
         String codProducto = txtCodigoProducto.getText();
         try {
@@ -708,9 +768,9 @@ public class FormProveedor extends javax.swing.JFrame {
     }
     
      private void iniciarTabla() {
-//        while(model.getRowCount() > 0){
-//            model.removeRow(0);
-//        }
+        while(model.getRowCount() > 0){
+            model.removeRow(0);
+        }
         Conexion objConexion = new Conexion();
         this.listProveedores = new ArrayList();
         TablaModelo modelo = new TablaModelo();
@@ -742,10 +802,6 @@ public class FormProveedor extends javax.swing.JFrame {
                 listProveedores.add(proveedor);
                 
             }
-//            modelo.addProveedor(this.listProveedores.get(0));
-//            modelo.addProveedor(this.listProveedores.get(0));
-//            modelo.addProveedor(this.listProveedores.get(1));
-            
             //este for es para ver que si se guardaron correctamente los datos en la lista 
             for (Proveedor objProveedor : listProveedores) {
 //                System.out.println(objProveedor.toString());
@@ -757,7 +813,6 @@ public class FormProveedor extends javax.swing.JFrame {
                     System.out.println("Telefono: " + objProveedor.getDatos().get(i).getTelefono());                    
                 }
             }
-            
             
             tblProveedores.setModel(modelo);
             tblProveedores.getTableHeader().setDefaultRenderer(new EncabezadoRenderer());
@@ -831,6 +886,7 @@ public class FormProveedor extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -841,6 +897,7 @@ public class FormProveedor extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JLabel lblUsuario;
     private javax.swing.JPanel pnlAgregarProductos;
     private javax.swing.JPanel pnlAgregarProveedor;
     private javax.swing.JTable tblProductos;

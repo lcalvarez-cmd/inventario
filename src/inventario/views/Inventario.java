@@ -5,10 +5,12 @@
 package inventario.views;
 
 import inventario.config.Conexion;
+import inventario.config.ExportarExcel;
 import inventario.modelo.Producto;
 import inventario.modelo.Usuario;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.io.IOException;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
@@ -67,10 +69,7 @@ public class Inventario extends javax.swing.JFrame {
         }
         
     }
-    
-    public void recuperarUsuario(Usuario usuario){
-        this.usuario = usuario;
-    }
+ 
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -113,6 +112,7 @@ public class Inventario extends javax.swing.JFrame {
         btnCancelarModificar = new javax.swing.JButton();
         lblCantidadActual = new javax.swing.JLabel();
         lblUsuarioActual = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -125,7 +125,12 @@ public class Inventario extends javax.swing.JFrame {
             }
         });
 
-        btnProductos.setText("Productos");
+        btnProductos.setText("exportar");
+        btnProductos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnProductosActionPerformed(evt);
+            }
+        });
 
         btnUsuarios.setText("Usuarios");
         btnUsuarios.addActionListener(new java.awt.event.ActionListener() {
@@ -334,7 +339,7 @@ public class Inventario extends javax.swing.JFrame {
                     .addGroup(pnlEdidarProductoLayout.createSequentialGroup()
                         .addGap(117, 117, 117)
                         .addComponent(btnCancelarModificar)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(46, Short.MAX_VALUE))
         );
         pnlEdidarProductoLayout.setVerticalGroup(
             pnlEdidarProductoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -359,49 +364,60 @@ public class Inventario extends javax.swing.JFrame {
 
         lblUsuarioActual.setText("jLabel10");
 
+        jLabel10.setText("S.I.T");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(43, 43, 43)
-                .addComponent(btnProveedores)
-                .addGap(181, 181, 181)
-                .addComponent(btnProductos)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 416, Short.MAX_VALUE)
-                .addComponent(btnUsuarios)
-                .addGap(84, 84, 84))
-            .addGroup(layout.createSequentialGroup()
                 .addGap(135, 135, 135)
                 .addComponent(pnlAgregarProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 329, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(pnlEdidarProducto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(126, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(127, 127, 127)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 673, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(405, 405, 405)
-                        .addComponent(jLabel1))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(52, 52, 52)
+                        .addGap(63, 63, 63)
                         .addComponent(lblUsuarioActual)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(402, 402, 402)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(btnUsuarios)
+                            .addComponent(jLabel1)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(43, 43, 43)
+                        .addComponent(btnProveedores)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(96, 96, 96)
+                        .addComponent(jLabel10))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnProductos)
+                        .addGap(192, 192, 192))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1)
-                .addGap(12, 12, 12)
+                .addGap(24, 24, 24)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel10))
+                .addGap(7, 7, 7)
                 .addComponent(lblUsuarioActual)
-                .addGap(64, 64, 64)
+                .addGap(51, 51, 51)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnProveedores)
-                    .addComponent(btnProductos)
-                    .addComponent(btnUsuarios))
+                    .addComponent(btnUsuarios)
+                    .addComponent(btnProductos))
                 .addGap(24, 24, 24)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -417,13 +433,13 @@ public class Inventario extends javax.swing.JFrame {
 
     private void btnUsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUsuariosActionPerformed
         //mostrar la vista de usuario
-        FormUsuario vistaUsuario = new FormUsuario();
+        FormUsuario vistaUsuario = new FormUsuario(this.usuario);
         vistaUsuario.setVisible(true);
         setVisible(false);
     }//GEN-LAST:event_btnUsuariosActionPerformed
 
     private void btnProveedoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProveedoresActionPerformed
-        FormProveedor vistaProveedores = new FormProveedor();
+        FormProveedor vistaProveedores = new FormProveedor(this.usuario);
         vistaProveedores.setVisible(true);
         setVisible(false);
     }//GEN-LAST:event_btnProveedoresActionPerformed
@@ -547,6 +563,17 @@ public class Inventario extends javax.swing.JFrame {
         cargarDatos();
     }//GEN-LAST:event_btnAsignarCantidadActionPerformed
 
+    private void btnProductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProductosActionPerformed
+        ExportarExcel obj;
+
+        try {
+            obj = new ExportarExcel();
+            obj.exportarExcel(tblProductos);
+        } catch (IOException ex) {
+            System.out.println("Error: " + ex);
+        }
+    }//GEN-LAST:event_btnProductosActionPerformed
+
     public void limpiar(){
         txtCodigoProducto.setText("");
         txtNombreProducto.setText("");
@@ -649,6 +676,7 @@ public class Inventario extends javax.swing.JFrame {
     private javax.swing.JButton btnRestarCantidad;
     private javax.swing.JButton btnUsuarios;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
