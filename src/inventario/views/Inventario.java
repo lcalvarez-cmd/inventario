@@ -26,6 +26,7 @@ public class Inventario extends javax.swing.JFrame {
     public Inventario() {
         initComponents();
         Dimension pantalla = Toolkit.getDefaultToolkit().getScreenSize();
+        lblValorPeso.setText("");
         int height = pantalla.height;
         int width = pantalla.width;
         String[] titulos = {"ID_PRODUCTO","CODIGO","NOMBRE","CANTIDAD","PRECIO","CATEGORIA"};
@@ -47,8 +48,9 @@ public class Inventario extends javax.swing.JFrame {
     }
     
     public Inventario(Usuario usuario){
-        this.usuario = usuario;
         initComponents();
+        this.usuario = usuario;
+        lblValorPeso.setText("");
         Dimension pantalla = Toolkit.getDefaultToolkit().getScreenSize();
         pnlEdidarProducto.setVisible(false);
         int height = pantalla.height;
@@ -111,6 +113,7 @@ public class Inventario extends javax.swing.JFrame {
         txtPrecioActual = new javax.swing.JTextField();
         btnCancelarModificar = new javax.swing.JButton();
         lblCantidadActual = new javax.swing.JLabel();
+        lblValorPeso = new javax.swing.JLabel();
         lblUsuarioActual = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
 
@@ -165,9 +168,9 @@ public class Inventario extends javax.swing.JFrame {
 
         jLabel4.setText("Nombre:");
 
-        jLabel5.setText("Cantidad:");
+        jLabel5.setText("Peso:");
 
-        jLabel6.setText("Precio Unidad:");
+        jLabel6.setText("Precio gr:");
 
         jLabel7.setText("Categoria:");
 
@@ -203,42 +206,40 @@ public class Inventario extends javax.swing.JFrame {
             pnlAgregarProductoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlAgregarProductoLayout.createSequentialGroup()
                 .addGap(15, 15, 15)
-                .addGroup(pnlAgregarProductoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(pnlAgregarProductoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(pnlAgregarProductoLayout.createSequentialGroup()
-                        .addComponent(jLabel5)
-                        .addGap(69, 69, 69)
-                        .addComponent(txtCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlAgregarProductoLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(btnCandelarAgregar))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnlAgregarProductoLayout.createSequentialGroup()
                         .addGroup(pnlAgregarProductoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(pnlAgregarProductoLayout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(btnCandelarAgregar))
-                            .addGroup(pnlAgregarProductoLayout.createSequentialGroup()
-                                .addGroup(pnlAgregarProductoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addGroup(pnlAgregarProductoLayout.createSequentialGroup()
-                                        .addComponent(jLabel7)
-                                        .addGap(66, 66, 66)
-                                        .addComponent(txtCategoria))
-                                    .addGroup(pnlAgregarProductoLayout.createSequentialGroup()
-                                        .addComponent(jLabel2)
-                                        .addGap(26, 26, 26)
-                                        .addComponent(txtIdProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(pnlAgregarProductoLayout.createSequentialGroup()
-                                        .addGroup(pnlAgregarProductoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel4)
-                                            .addComponent(jLabel3))
-                                        .addGap(73, 73, 73)
-                                        .addGroup(pnlAgregarProductoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(txtCodigoProducto, javax.swing.GroupLayout.DEFAULT_SIZE, 106, Short.MAX_VALUE)
-                                            .addComponent(txtNombreProducto)))
-                                    .addGroup(pnlAgregarProductoLayout.createSequentialGroup()
-                                        .addComponent(jLabel6)
-                                        .addGap(43, 43, 43)
-                                        .addComponent(txtPrecioUnidad)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btnAgregar)))
-                        .addGap(31, 31, 31))))
+                                .addComponent(jLabel5)
+                                .addGap(92, 92, 92)
+                                .addComponent(txtCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(pnlAgregarProductoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addGroup(pnlAgregarProductoLayout.createSequentialGroup()
+                                    .addComponent(jLabel7)
+                                    .addGap(66, 66, 66)
+                                    .addComponent(txtCategoria))
+                                .addGroup(pnlAgregarProductoLayout.createSequentialGroup()
+                                    .addComponent(jLabel2)
+                                    .addGap(26, 26, 26)
+                                    .addComponent(txtIdProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(pnlAgregarProductoLayout.createSequentialGroup()
+                                    .addGroup(pnlAgregarProductoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jLabel4)
+                                        .addComponent(jLabel3))
+                                    .addGap(73, 73, 73)
+                                    .addGroup(pnlAgregarProductoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(txtCodigoProducto, javax.swing.GroupLayout.DEFAULT_SIZE, 106, Short.MAX_VALUE)
+                                        .addComponent(txtNombreProducto)))
+                                .addGroup(pnlAgregarProductoLayout.createSequentialGroup()
+                                    .addComponent(jLabel6)
+                                    .addGap(70, 70, 70)
+                                    .addComponent(txtPrecioUnidad))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnAgregar)))
+                .addGap(31, 31, 31))
         );
         pnlAgregarProductoLayout.setVerticalGroup(
             pnlAgregarProductoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -277,9 +278,9 @@ public class Inventario extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jLabel8.setText("Cantidad:");
+        jLabel8.setText("Peso:");
 
-        jLabel9.setText("Precio Unidad:");
+        jLabel9.setText("Precio x gr:");
 
         btnAgregarCantidad.setText("+");
         btnAgregarCantidad.addActionListener(new java.awt.event.ActionListener() {
@@ -303,6 +304,20 @@ public class Inventario extends javax.swing.JFrame {
         });
 
         txtCantidadAModificar.setText("0");
+        txtCantidadAModificar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtCantidadAModificarKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtCantidadAModificarKeyTyped(evt);
+            }
+        });
+
+        txtPrecioActual.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtPrecioActualKeyTyped(evt);
+            }
+        });
 
         btnCancelarModificar.setText("Cancelar");
         btnCancelarModificar.addActionListener(new java.awt.event.ActionListener() {
@@ -311,7 +326,9 @@ public class Inventario extends javax.swing.JFrame {
             }
         });
 
-        lblCantidadActual.setText("Cantidad actual:");
+        lblCantidadActual.setText("Peso Actual:");
+
+        lblValorPeso.setText("jLabel11");
 
         javax.swing.GroupLayout pnlEdidarProductoLayout = new javax.swing.GroupLayout(pnlEdidarProducto);
         pnlEdidarProducto.setLayout(pnlEdidarProductoLayout);
@@ -330,16 +347,18 @@ public class Inventario extends javax.swing.JFrame {
                             .addGroup(pnlEdidarProductoLayout.createSequentialGroup()
                                 .addComponent(txtCantidadAModificar, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addComponent(btnAgregarCantidad)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnRestarCantidad))
+                                .addComponent(btnAgregarCantidad))
                             .addComponent(txtPrecioActual, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnAsignarCantidad))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(pnlEdidarProductoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnAsignarCantidad)
+                            .addComponent(btnRestarCantidad)))
                     .addGroup(pnlEdidarProductoLayout.createSequentialGroup()
                         .addGap(117, 117, 117)
-                        .addComponent(btnCancelarModificar)))
-                .addContainerGap(46, Short.MAX_VALUE))
+                        .addGroup(pnlEdidarProductoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblValorPeso)
+                            .addComponent(btnCancelarModificar))))
+                .addContainerGap(149, Short.MAX_VALUE))
         );
         pnlEdidarProductoLayout.setVerticalGroup(
             pnlEdidarProductoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -352,7 +371,9 @@ public class Inventario extends javax.swing.JFrame {
                     .addComponent(btnAgregarCantidad)
                     .addComponent(txtCantidadAModificar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel8))
-                .addGap(29, 29, 29)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblValorPeso)
+                .addGap(7, 7, 7)
                 .addGroup(pnlEdidarProductoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9)
                     .addComponent(btnAsignarCantidad)
@@ -371,21 +392,6 @@ public class Inventario extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(135, 135, 135)
-                .addComponent(pnlAgregarProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 329, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(pnlEdidarProducto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap(126, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(127, 127, 127)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 673, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(63, 63, 63)
-                        .addComponent(lblUsuarioActual)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(402, 402, 402)
@@ -403,6 +409,20 @@ public class Inventario extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnProductos)
                         .addGap(192, 192, 192))))
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(135, 135, 135)
+                        .addComponent(pnlAgregarProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 329, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(pnlEdidarProducto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(127, 127, 127)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 673, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(63, 63, 63)
+                        .addComponent(lblUsuarioActual)))
+                .addContainerGap(78, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -556,7 +576,9 @@ public class Inventario extends javax.swing.JFrame {
     private void btnAsignarCantidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAsignarCantidadActionPerformed
         double precio = Double.parseDouble(txtPrecioActual.getText());
         Producto p = this.listaProductos.get(this.posicion);
+        System.out.println("precio actual "+p.getPrecio());
         p.setPrecio(precio);
+        System.out.println("precio nuevo "+p.getPrecio());
         String sentencia = "UPDATE producto SET codigo = '"+p.getCodigo()+"',nombre = '"+p.getNombre()+"',cantidad = '"+p.getCantidad()+"',precio= '"+p.getPrecio()+"',categoria = '"+p.getCategoria()+"' where id_producto = '"+p.getId_producto()+"'";
         Conexion c = new Conexion();
         c.ejecutarSentenciSQL(sentencia);
@@ -574,6 +596,29 @@ public class Inventario extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnProductosActionPerformed
 
+    private void txtCantidadAModificarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCantidadAModificarKeyReleased
+        if(!txtCantidadAModificar.getText().isBlank() || !txtCantidadAModificar.getText().isEmpty()){
+            Double valor = Double.parseDouble(txtCantidadAModificar.getText());
+            lblValorPeso.setText("Valor de lo pesado: $"+valor*listaProductos.get(posicion).getPrecio());
+        }
+    }//GEN-LAST:event_txtCantidadAModificarKeyReleased
+
+    private void txtCantidadAModificarKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCantidadAModificarKeyTyped
+        char caracter = evt.getKeyChar();
+        // Verificar si la tecla pulsada no es un digito
+        if (((caracter < '0') || (caracter > '9')) && (caracter != '.')) {
+            evt.consume();  // ignorar el evento de teclado
+        }
+    }//GEN-LAST:event_txtCantidadAModificarKeyTyped
+
+    private void txtPrecioActualKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPrecioActualKeyTyped
+        char caracter = evt.getKeyChar();
+        // Verificar si la tecla pulsada no es un digito
+        if (((caracter < '0') || (caracter > '9')) && (caracter != '.')) {
+            evt.consume();  // ignorar el evento de teclado
+        }
+    }//GEN-LAST:event_txtPrecioActualKeyTyped
+
     public void limpiar(){
         txtCodigoProducto.setText("");
         txtNombreProducto.setText("");
@@ -586,6 +631,7 @@ public class Inventario extends javax.swing.JFrame {
         while(model.getRowCount() > 0){
             model.removeRow(0);//limpia la tabla
         }
+        lblValorPeso.setText("");
         Conexion objConexion = new Conexion();
         this.listaProductos = new ArrayList<>();
         try {
@@ -688,6 +734,7 @@ public class Inventario extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblCantidadActual;
     private javax.swing.JLabel lblUsuarioActual;
+    private javax.swing.JLabel lblValorPeso;
     private javax.swing.JPanel pnlAgregarProducto;
     private javax.swing.JPanel pnlEdidarProducto;
     private javax.swing.JTable tblProductos;
